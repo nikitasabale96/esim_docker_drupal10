@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Drupal Module Upgrader analysis report</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,700,600' rel='stylesheet' type='text/css' />
+    <style type="text/css">
+    <!--
+
+body {
+  width: 80%;
+  color: #343434;
+  margin: 1em auto;
+  font-family: 'Open Sans', Verdana, sans-serif;
+}
+
+details {
+  font-size: 18px;
+  line-height: 25px;
+  margin-bottom: 2em;
+  display: list-item;
+  list-style: none;
+}
+
+details summary {
+  padding: 1em;
+  margin-bottom: 1em;
+  display: list-item;
+  cursor: pointer;
+}
+
+details.error summary {
+  background-color: #ffd5d5;
+}
+
+details.warning summary {
+  background-color: #fff3bb;
+}
+
+a {
+  color: #095cb1;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+h5 {
+  font-size: 1em;
+}
+
+aside {
+  font-style: italic;
+  line-height: 20px;
+  font-size: 15px;
+}
+
+.group {
+  border: 1px solid #ececec;
+  padding: 1em;
+  display: block;
+}
+
+.group > summary {
+  padding: 0;
+  color: #c8c8c8;
+  margin-bottom: 0;;
+  font-weight: bold;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  display: list-item;
+}
+
+.group[open] > summary {
+  margin-bottom: 1em;
+}
+
+.group > details:last-child {
+  margin-bottom: 0;
+}
+
+    -->
+    </style>
+  </head>
+  <body>
+    <h1>Drupal Module Upgrader analysis report</h1>
+      <details open="true" class="group">
+      <summary></summary>
+          <details class="error">
+      <summary><code>hook_menu()</code> has been removed from Drupal 8.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/1800686">All functionality of <code>hook_menu()</code> replaced</a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2177901">Dynamic routes are now defined in <code>MODULE.routing.yml</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2119699">Page callbacks have been converted to controller classes</a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2089605">Route naming convention</a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2165243">Contextual links are now plugins defined in <code>MODULE.links.contextual.yml</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2007444">Local actions are now plugins defined in <code>MODULE.links.action.yml</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2044515">Local tasks and now plugins defined in <code>MODULE.links.task.yml</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2228089">Menu links are now defined in <code>MODULE.links.menu.yml</code></a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 8</li>
+            </ul>
+                  <aside>Flagged by _flag_hook:menu</aside>    </details>
+    <details class="error">
+      <summary>Classes must be PSR-4 compliant.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2246699">PSR-4 compatible class loader in Drupal core</a></li>
+              </ul>
+      
+                      </details>
+    <details class="warning">
+      <summary>Static permissions are now defined in <code>MODULE.permissions.yml</code>.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2311427">Defining permissions in <code>MODULE.permissions.yml</code></a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 385</li>
+            </ul>
+            <p class="fixable">This issue can be fixed automatically.</p>      <aside>Flagged by hook_permission</aside>    </details>
+    <details class="warning">
+      <summary>Many common functions, shared variables, and constants have been renamed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2324935">The global theme variables have been replaced by an ActiveTheme object</a></li>
+              </ul>
+      
+                      </details>
+    <details class="error">
+      <summary><code>drupal_add_css()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2169605"><code>drupal_add_css()</code>, <code>drupal_add_js()</code> and <code>drupal_add_library()</code> removed in favor of <code>#attached</code></a></li>
+                <li><a target="_blank" href="https://www.drupal.org/node/2408597"><code>AssetResolverInterface</code> and <code>AttachedAssetsInterface</code> replace internal Asset API functions</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 896</li>
+            </ul>
+                  <aside>Flagged by _function_call:drupal_add_css</aside>    </details>
+    <details class="error">
+      <summary><code>drupal_goto()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2023537"><code>drupal_goto()</code> removed</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/pdf/mentor_cert_pdf.inc, line 281</li>
+              <li>modules/esim_research_migration/pdf/mentor_cert_pdf.inc, line 373</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 129</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 9</li>
+              <li>modules/esim_research_migration/full_download.inc, line 64</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 209</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 215</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 403</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 409</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 442</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 476</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 503</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 509</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 714</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 720</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 760</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 968</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 974</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 1006</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 9</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 95</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 101</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 111</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 236</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 415</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 453</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 459</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 582</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 658</li>
+              <li>modules/esim_research_migration/proposal.inc, line 31</li>
+              <li>modules/esim_research_migration/proposal.inc, line 46</li>
+              <li>modules/esim_research_migration/proposal.inc, line 614</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 532</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 875</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 1080</li>
+            </ul>
+                  <aside>Flagged by _function_call:drupal_goto</aside>    </details>
+    <details class="error">
+      <summary><code>drupal_render()</code> has been removed.</summary>
+
+      
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/pdf/verify_certificates.inc, line 13</li>
+              <li>modules/esim_research_migration/pdf/verify_certificates.inc, line 55</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 75</li>
+            </ul>
+                  <aside>Flagged by _function_call:drupal_render</aside>    </details>
+    <details class="error">
+      <summary><code>user_load()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2266845">Entities are now classed objects implementing <code>EntityInterface</code></a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 107</li>
+              <li>modules/esim_research_migration/email.inc, line 18</li>
+              <li>modules/esim_research_migration/email.inc, line 61</li>
+              <li>modules/esim_research_migration/email.inc, line 109</li>
+              <li>modules/esim_research_migration/email.inc, line 152</li>
+              <li>modules/esim_research_migration/email.inc, line 190</li>
+              <li>modules/esim_research_migration/email.inc, line 233</li>
+              <li>modules/esim_research_migration/email.inc, line 271</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 251</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 421</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 455</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 555</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 738</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 793</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 980</li>
+              <li>modules/esim_research_migration/run.inc, line 59</li>
+            </ul>
+                  <aside>Flagged by _function_call:user_load</aside>    </details>
+    <details class="error">
+      <summary><code>drupal_get_form()</code> has moved into the FormBuilder service.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2121003">Form generation functions moved into FormBuilder service</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/pdf/verify_certificates.inc, line 12</li>
+            </ul>
+                  <aside>Flagged by _function_call:drupal_get_form</aside>    </details>
+    <details class="error">
+      <summary><code>form_set_error()</code> is now a method of <code>FormStateInterface</code>.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2121003">Form functions moved into <code>FormStateInterface</code></a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 242</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 57</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 69</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 71</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 74</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 384</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 178</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 183</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 213</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 215</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 218</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 550</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 554</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 559</li>
+              <li>modules/esim_research_migration/proposal.inc, line 330</li>
+              <li>modules/esim_research_migration/proposal.inc, line 337</li>
+              <li>modules/esim_research_migration/proposal.inc, line 346</li>
+              <li>modules/esim_research_migration/proposal.inc, line 355</li>
+              <li>modules/esim_research_migration/proposal.inc, line 367</li>
+              <li>modules/esim_research_migration/proposal.inc, line 372</li>
+              <li>modules/esim_research_migration/proposal.inc, line 377</li>
+              <li>modules/esim_research_migration/proposal.inc, line 387</li>
+              <li>modules/esim_research_migration/proposal.inc, line 391</li>
+              <li>modules/esim_research_migration/proposal.inc, line 400</li>
+              <li>modules/esim_research_migration/proposal.inc, line 414</li>
+              <li>modules/esim_research_migration/proposal.inc, line 426</li>
+              <li>modules/esim_research_migration/proposal.inc, line 428</li>
+              <li>modules/esim_research_migration/proposal.inc, line 431</li>
+            </ul>
+                  <aside>Flagged by _function_call:form_set_error</aside>    </details>
+    <details class="error">
+      <summary><code>l()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2346779"><code>l()</code> replaced by URL generation API</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 393</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 396</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 8</li>
+              <li>modules/esim_research_migration/pdf/list_research_migration_certificate.inc, line 28</li>
+              <li>modules/esim_research_migration/pdf/list_mentor_certificates.inc, line 24</li>
+              <li>modules/esim_research_migration/pdf/list_all_form_pdf.inc, line 33</li>
+              <li>modules/esim_research_migration/pdf/list_all_form_pdf.inc, line 34</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 15</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 17</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 17</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 82</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 87</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 87</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 158</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 163</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 245</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 335</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 376</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 549</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 670</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 694</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 904</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 53</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 59</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 63</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 162</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 511</li>
+              <li>modules/esim_research_migration/available_project_titles_list.inc, line 15</li>
+              <li>modules/esim_research_migration/run.inc, line 47</li>
+              <li>modules/esim_research_migration/run.inc, line 47</li>
+              <li>modules/esim_research_migration/run.inc, line 61</li>
+              <li>modules/esim_research_migration/run.inc, line 61</li>
+              <li>modules/esim_research_migration/proposal.inc, line 30</li>
+              <li>modules/esim_research_migration/esim_research_migration_details.inc, line 34</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 965</li>
+            </ul>
+                  <aside>Flagged by _function_call:l</aside>    </details>
+    <details class="error">
+      <summary><code>theme()</code> has been renamed to <code>_theme()</code>, and should never be called directly.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2195739"><code>theme()</code> renamed to <code>_theme()</code> and should not be called directly</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/pdf/list_research_migration_certificate.inc, line 38</li>
+              <li>modules/esim_research_migration/pdf/list_mentor_certificates.inc, line 36</li>
+              <li>modules/esim_research_migration/pdf/list_all_form_pdf.inc, line 47</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 32</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 104</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 180</li>
+              <li>modules/esim_research_migration/available_project_titles_list.inc, line 25</li>
+              <li>modules/esim_research_migration/esim_research_migration_details.inc, line 52</li>
+              <li>modules/esim_research_migration/esim_research_migration_details.inc, line 97</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 975</li>
+            </ul>
+                  <aside>Flagged by _function_call:theme</aside>    </details>
+    <details class="error">
+      <summary><code>user_access()</code> is now <code>AccountInterface::hasPermission()</code>.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2049309"><code>user_access()</code> got converted to a method on the user/account interface</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 99</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 246</li>
+            </ul>
+                  <aside>Flagged by _function_call:user_access</aside>    </details>
+    <details class="error">
+      <summary><code>variable_get()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2183531">The Variable API has been removed</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 132</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 147</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 153</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 154</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 155</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 198</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 213</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 219</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 220</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 221</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 255</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 269</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 274</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 275</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 276</li>
+              <li>modules/esim_research_migration/email.inc, line 21</li>
+              <li>modules/esim_research_migration/email.inc, line 47</li>
+              <li>modules/esim_research_migration/email.inc, line 65</li>
+              <li>modules/esim_research_migration/email.inc, line 94</li>
+              <li>modules/esim_research_migration/email.inc, line 112</li>
+              <li>modules/esim_research_migration/email.inc, line 138</li>
+              <li>modules/esim_research_migration/email.inc, line 155</li>
+              <li>modules/esim_research_migration/email.inc, line 176</li>
+              <li>modules/esim_research_migration/email.inc, line 193</li>
+              <li>modules/esim_research_migration/email.inc, line 217</li>
+              <li>modules/esim_research_migration/email.inc, line 235</li>
+              <li>modules/esim_research_migration/email.inc, line 255</li>
+              <li>modules/esim_research_migration/email.inc, line 276</li>
+              <li>modules/esim_research_migration/email.inc, line 293</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 64</li>
+              <li>modules/esim_research_migration/settings.inc, line 12</li>
+              <li>modules/esim_research_migration/settings.inc, line 21</li>
+              <li>modules/esim_research_migration/settings.inc, line 30</li>
+              <li>modules/esim_research_migration/settings.inc, line 39</li>
+              <li>modules/esim_research_migration/settings.inc, line 48</li>
+              <li>modules/esim_research_migration/settings.inc, line 57</li>
+              <li>modules/esim_research_migration/settings.inc, line 66</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 423</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 424</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 425</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 457</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 458</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 459</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 740</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 741</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 742</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 982</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 983</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 984</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 134</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 146</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 203</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 206</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 396</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 397</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 398</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 485</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 496</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 539</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 542</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 639</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 640</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 641</li>
+              <li>modules/esim_research_migration/proposal.inc, line 281</li>
+              <li>modules/esim_research_migration/proposal.inc, line 421</li>
+              <li>modules/esim_research_migration/proposal.inc, line 597</li>
+              <li>modules/esim_research_migration/proposal.inc, line 598</li>
+              <li>modules/esim_research_migration/proposal.inc, line 599</li>
+            </ul>
+                  <aside>Flagged by _function_call:variable_get</aside>    </details>
+    <details class="error">
+      <summary><code>variable_set()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2183531">The Variable API has been removed</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/settings.inc, line 80</li>
+              <li>modules/esim_research_migration/settings.inc, line 81</li>
+              <li>modules/esim_research_migration/settings.inc, line 82</li>
+              <li>modules/esim_research_migration/settings.inc, line 83</li>
+              <li>modules/esim_research_migration/settings.inc, line 84</li>
+              <li>modules/esim_research_migration/settings.inc, line 85</li>
+              <li>modules/esim_research_migration/settings.inc, line 86</li>
+            </ul>
+                  <aside>Flagged by _function_call:variable_set</aside>    </details>
+    <details class="error">
+      <summary><code>drupal_set_message()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2774931"><code>drupal_set_message()</code> moved into stream wrapper manager service.</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 128</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 169</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 195</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 235</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 243</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 248</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 253</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 290</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 295</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 8</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 111</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 125</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 129</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 133</li>
+              <li>modules/esim_research_migration/pdf/list_research_migration_certificate.inc, line 13</li>
+              <li>modules/esim_research_migration/pdf/list_research_migration_certificate.inc, line 52</li>
+              <li>modules/esim_research_migration/general_deletion.inc, line 16</li>
+              <li>modules/esim_research_migration/general_deletion.inc, line 32</li>
+              <li>modules/esim_research_migration/settings.inc, line 87</li>
+              <li>modules/esim_research_migration/pdf/list_mentor_certificates.inc, line 10</li>
+              <li>modules/esim_research_migration/pdf/list_mentor_certificates.inc, line 50</li>
+              <li>modules/esim_research_migration/pdf/list_all_form_pdf.inc, line 14</li>
+              <li>modules/esim_research_migration/pdf/list_all_form_pdf.inc, line 62</li>
+              <li>modules/esim_research_migration/full_download.inc, line 63</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 22</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 92</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 168</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 208</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 214</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 402</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 408</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 438</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 441</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 472</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 475</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 502</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 508</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 713</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 719</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 734</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 755</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 758</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 967</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 973</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 997</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 1000</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 1005</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 1056</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 94</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 100</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 110</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 276</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 301</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 332</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 368</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 385</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 389</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 412</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 452</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 458</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 520</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 565</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 630</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 633</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 656</li>
+              <li>modules/esim_research_migration/proposal.inc, line 30</li>
+              <li>modules/esim_research_migration/proposal.inc, line 45</li>
+              <li>modules/esim_research_migration/proposal.inc, line 443</li>
+              <li>modules/esim_research_migration/proposal.inc, line 567</li>
+              <li>modules/esim_research_migration/proposal.inc, line 582</li>
+              <li>modules/esim_research_migration/proposal.inc, line 586</li>
+              <li>modules/esim_research_migration/proposal.inc, line 592</li>
+              <li>modules/esim_research_migration/proposal.inc, line 612</li>
+              <li>modules/esim_research_migration/proposal.inc, line 613</li>
+              <li>modules/esim_research_migration/pdf/cert_new.inc, line 17</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 531</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 536</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 541</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 544</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 547</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 720</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 725</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 775</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 778</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 782</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 870</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 873</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 1079</li>
+            </ul>
+                  <aside>Flagged by _function_call:drupal_set_message</aside>    </details>
+    <details class="error">
+      <summary><code>db_delete()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2993033"><code>db_delete()</code> is deprecated.</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/general_deletion.inc, line 34</li>
+              <li>modules/esim_research_migration/general_deletion.inc, line 37</li>
+              <li>modules/esim_research_migration/general_deletion.inc, line 40</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 1002</li>
+            </ul>
+                  <aside>Flagged by _function_call:db_delete</aside>    </details>
+    <details class="error">
+      <summary><code>db_query()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2993033"><code>db_query()</code> is deprecated.</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/pdf/verify_certificates.inc, line 72</li>
+              <li>modules/esim_research_migration/pdf/verify_certificates.inc, line 76</li>
+              <li>modules/esim_research_migration/pdf/mentor_cert_pdf.inc, line 10</li>
+              <li>modules/esim_research_migration/pdf/mentor_cert_pdf.inc, line 203</li>
+              <li>modules/esim_research_migration/pdf/mentor_cert_pdf.inc, line 207</li>
+              <li>modules/esim_research_migration/pdf/mentor_cert_pdf.inc, line 291</li>
+              <li>modules/esim_research_migration/pdf/mentor_cert_pdf.inc, line 295</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 119</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 123</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 182</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 186</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 190</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 97</li>
+              <li>modules/esim_research_migration/add_project_titles.inc, line 123</li>
+              <li>modules/esim_research_migration/pdf/list_research_migration_certificate.inc, line 5</li>
+              <li>modules/esim_research_migration/pdf/list_research_migration_certificate.inc, line 20</li>
+              <li>modules/esim_research_migration/pdf/list_mentor_certificates.inc, line 5</li>
+              <li>modules/esim_research_migration/pdf/list_mentor_certificates.inc, line 17</li>
+              <li>modules/esim_research_migration/pdf/list_all_form_pdf.inc, line 6</li>
+              <li>modules/esim_research_migration/pdf/list_all_form_pdf.inc, line 22</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 419</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 453</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 731</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 1055</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 249</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 267</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 275</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 292</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 300</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 330</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 343</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 351</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 367</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 382</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 615</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 627</li>
+              <li>modules/esim_research_migration/available_project_titles_list.inc, line 9</li>
+              <li>modules/esim_research_migration/proposal.inc, line 545</li>
+              <li>modules/esim_research_migration/proposal.inc, line 579</li>
+              <li>modules/esim_research_migration/pdf/cert_new.inc, line 10</li>
+              <li>modules/esim_research_migration/pdf/cert_new.inc, line 155</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 641</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 702</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 732</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 754</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 868</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 1078</li>
+            </ul>
+                  <aside>Flagged by _function_call:db_query</aside>    </details>
+    <details class="error">
+      <summary><code>db_select()</code> has been removed.</summary>
+
+      
+            <h5>Documentation</h5>
+      <ul>
+                <li><a target="_blank" href="https://www.drupal.org/node/2993033"><code>db_select()</code> is deprecated.</a></li>
+              </ul>
+      
+            <h5>Files Affected</h5>
+      <ul>
+              <li>modules/esim_research_migration/pdf/verify_certificates.inc, line 63</li>
+              <li>modules/esim_research_migration/pdf/mentor_cert_pdf.inc, line 117</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 101</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 111</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 175</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 311</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 337</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 342</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 362</li>
+              <li>modules/esim_research_migration/abstract_bulk_approval.inc, line 367</li>
+              <li>modules/esim_research_migration/email.inc, line 13</li>
+              <li>modules/esim_research_migration/email.inc, line 56</li>
+              <li>modules/esim_research_migration/email.inc, line 104</li>
+              <li>modules/esim_research_migration/email.inc, line 147</li>
+              <li>modules/esim_research_migration/email.inc, line 185</li>
+              <li>modules/esim_research_migration/email.inc, line 227</li>
+              <li>modules/esim_research_migration/email.inc, line 265</li>
+              <li>modules/esim_research_migration/general_deletion.inc, line 9</li>
+              <li>modules/esim_research_migration/general_deletion.inc, line 19</li>
+              <li>modules/esim_research_migration/full_download.inc, line 9</li>
+              <li>modules/esim_research_migration/full_download.inc, line 20</li>
+              <li>modules/esim_research_migration/full_download.inc, line 24</li>
+              <li>modules/esim_research_migration/full_download.inc, line 27</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 7</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 42</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 114</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 194</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 393</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 488</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 704</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 773</li>
+              <li>modules/esim_research_migration/manage_proposal.inc, line 958</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 14</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 18</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 22</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 39</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 84</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 104</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 419</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 443</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 462</li>
+              <li>modules/esim_research_migration/upload_code.inc, line 575</li>
+              <li>modules/esim_research_migration/available_project_titles_list.inc, line 35</li>
+              <li>modules/esim_research_migration/run.inc, line 111</li>
+              <li>modules/esim_research_migration/run.inc, line 123</li>
+              <li>modules/esim_research_migration/proposal.inc, line 34</li>
+              <li>modules/esim_research_migration/pdf/cert_new.inc, line 136</li>
+              <li>modules/esim_research_migration/download.inc, line 11</li>
+              <li>modules/esim_research_migration/esim_research_migration_details.inc, line 6</li>
+              <li>modules/esim_research_migration/esim_research_migration_details.inc, line 27</li>
+              <li>modules/esim_research_migration/esim_research_migration_details.inc, line 63</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 523</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 588</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 602</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 616</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 628</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 650</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 661</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 675</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 882</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 949</li>
+              <li>modules/esim_research_migration/esim_research_migration.module, line 992</li>
+            </ul>
+                  <aside>Flagged by _function_call:db_select</aside>    </details>
+
+    </details>
+    </body>
+</html>

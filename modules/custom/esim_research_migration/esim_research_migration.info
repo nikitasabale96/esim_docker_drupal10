@@ -1,0 +1,9 @@
+name = "esim Research Migration"
+description = "esim Research Migration Project, FOSSEE, IIT Bombay"
+type = "module"
+package = FOSSEE
+version = "8.x"
+core = "8.x"
+
+
+;scripts[] = js/jquery-1.4.1.min.js

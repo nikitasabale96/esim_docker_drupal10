@@ -1,0 +1,83 @@
+esim_research_migration.add_project_title_form:
+  route_name: esim_research_migration.add_project_title_form
+  title: 'Add new project titles'
+  description: 'Add new project titles'
+esim_research_migration.proposal_form:
+  route_name: esim_research_migration.proposal_form
+  title: 'Research Migration Project Proposal Form'
+  description: 'Research Migration Proposal Form'
+esim_research_migration.proposal_pending:
+  route_name: esim_research_migration.proposal_pending
+  title: 'Manage Research Migration Proposals'
+  description: 'Manage Research Migration Proposals'
+esim_research_migration.proposal_pending_0:
+  route_name: esim_research_migration.proposal_pending
+  title: 'Pending Proposals'
+  weight: 1
+  description: 'Pending Research Migration Proposals Queue'
+esim_research_migration.proposal_all:
+  route_name: esim_research_migration.proposal_all
+  title: 'All Proposals'
+  weight: 4
+  description: 'All Proposals'
+esim_research_migration.proposal_edit_file_all:
+  route_name: esim_research_migration.proposal_edit_file_all
+  title: 'Edit code files'
+  weight: 4
+  description: 'Edit code files'
+esim_research_migration.abstract_bulk_approval_form:
+  route_name: esim_research_migration.abstract_bulk_approval_form
+  title: 'Research Migration Manage Code'
+  weight: 2
+  description: 'Bulk Mangage'
+esim_research_migration.edit_upload_abstract_code_form:
+  route_name: esim_research_migration.edit_upload_abstract_code_form
+  title: 'Research Migration Project Directory edit uploaded files for proposal'
+  weight: 2
+  description: 'Project Edit Upload'
+  parent: esim_research_migration.abstract
+esim_research_migration.abstract:
+  route_name: esim_research_migration.abstract
+  title: 'Research Migration Project Directory Submission'
+  description: 'Abstract Submission'
+esim_research_migration.upload_abstract_code_form:
+  route_name: esim_research_migration.upload_abstract_code_form
+  title: 'Research Migration Project Directory Submission'
+  weight: 2
+  description: 'Project Upload'
+  parent: esim_research_migration.abstract
+esim_research_migration.upload_code_delete:
+  route_name: esim_research_migration.upload_code_delete
+  title: 'Delete Solution'
+  description: 'Delete Solution'
+  parent: esim_research_migration.abstract
+esim_research_migration.completed_proposals_all:
+  route_name: esim_research_migration.completed_proposals_all
+  title: 'Completed Research Migration'
+esim_research_migration.progress_all:
+  route_name: esim_research_migration.progress_all
+  title: 'Research Migration in Progress'
+esim_research_migration.list_of_available_project_titles:
+  route_name: esim_research_migration.list_of_available_project_titles
+  title: 'List of available project titles'
+esim_research_migration.run_form:
+  route_name: esim_research_migration.run_form
+  title: 'Download Codes'
+esim_research_migration.download_upload_file:
+  route_name: esim_research_migration.download_upload_file
+  title: 'Download user defined compound file'
+  description: 'Download resource file'
+esim_research_migration.settings_form:
+  route_name: esim_research_migration.settings_form
+  title: 'Research Migration Settings'
+  description: 'Research Migration Settings'
+  parent: system.admin
+  weight: 100
+esim_research_migration._list_research_migration_certificates:
+  route_name: esim_research_migration._list_research_migration_certificates
+  title: 'List of Research Migration Project Certificates'
+  description: 'List of Research Migration Project Certificates'
+esim_research_migration.verify_certificates_verify_certificates:
+  route_name: esim_research_migration.verify_certificates_verify_certificates
+  title: 'Certificate Verification'
+  parent: esim_research_migration._list_research_migration_certificates

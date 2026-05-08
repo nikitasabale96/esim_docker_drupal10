@@ -1,0 +1,1367 @@
+<?php
+
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\Response;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Database\Database;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Service;
+use Drupal\user\Entity\User;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Render\Markup;
+use Drupal\Component\Utility\Html;
+// $Id$
+require_once __DIR__ . '/general_deletion.inc';
+require_once __DIR__ . '/email.inc';
+/**
+ * Implementation of hook_menu().
+ */
+
+function esim_research_migration_menu()
+{
+    $items = array();
+    /* PROPOSAL */
+    /*$items['lecture-videos/add'] =array(
+        'title' => 'Add Lecture Video',
+        'description' => 'Add new lecture video',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'add_lecture_videos_form',
+        ),
+        'access arguments' => array(
+            'manage lecture videos',
+        ),
+        //'type' => MENU_NORMAL_ITEM,
+    );
+    $items['lecture-videos/manage'] = array(
+        'title' => 'Manage Lecture Videos',
+        'page callback' => 'manage_lecture_videos',
+        'access arguments' => array('manage lecture videos'),
+        //'type' => MENU_NORMAL_ITEM,
+    );
+    $items['lecture-videos'] =array(
+        'title' => 'Lecture Video',
+        'description' => 'View lecture video',
+        'page callback' => 'view_lecture_videos',
+        'access arguments' => array(
+            'view lecture videos',
+        ),
+        //'type' => MENU_NORMAL_ITEM,
+    );
+    $items['lecture-videos/edit'] = array(
+        'title' => 'Edit Lecture Videos',
+        // 'description' => 'Edit Proposal',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'edit_lecture_videos_form',
+        ),
+        'access arguments' => array(
+            'manage lecture videos',
+        ),
+        //'type' => MENU_NORMAL_ITEM,
+        // 'file' => 'manage_proposal.inc',
+     );*/
+    $items['research-migration-project/add-project-title'] = array(
+        'title' => 'Add new project titles',
+        'description' => 'Add new project titles',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'add_project_title_form',
+        ),
+        'access arguments' => array(
+            'Research Migration add project titles',
+        ),
+        //'type' => MENU_NORMAL_ITEM,
+        'file' => 'add_project_titles.inc',
+    );
+    $items['research-migration-project/proposal'] = array(
+        'title' => 'Research Migration Project Proposal Form',
+        'description' => 'Research Migration Proposal Form',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'esim_research_migration_proposal_form',
+        ),
+        'access arguments' => array(
+            'Research Migration create proposal',
+        ),
+        //'type' => MENU_NORMAL_ITEM,
+        'file' => 'proposal.inc',
+    );
+    $items['research-migration-project/manage-proposal'] = array(
+        'title' => 'Manage Research Migration Proposals',
+        'description' => 'Manage Research Migration Proposals',
+        'page callback' => 'esim_research_migration_proposal_pending',
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'Research Migration manage proposal',
+        ),
+        'file' => 'manage_proposal.inc',
+    );
+    $items['research-migration-project/manage-proposal/pending'] = array(
+        'title' => 'Pending Proposals',
+        'description' => 'Pending Research Migration Proposals Queue',
+        'page callback' => 'esim_research_migration_proposal_pending',
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'Research Migration manage proposal',
+        ),
+        //'type' => MENU_DEFAULT_LOCAL_TASK,
+        'weight' => 1,
+        'file' => 'manage_proposal.inc',
+    );
+    $items['research-migration-project/manage-proposal/all'] = array(
+        'title' => 'All Proposals',
+        'description' => 'All Proposals',
+        'page callback' => 'esim_research_migration_proposal_all',
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'Research Migration manage proposal',
+        ),
+        //'type' => MENU_LOCAL_TASK,
+        'weight' => 4,
+        'file' => 'manage_proposal.inc',
+    );
+    $items['research-migration-project/manage-proposal/edit-upload-file'] = array(
+        'title' => 'Edit code files',
+        'description' => 'Edit code files',
+        'page callback' => 'esim_research_migration_proposal_edit_file_all',
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'Research Migration manage proposal',
+        ),
+        //'type' => MENU_LOCAL_TASK,
+        'weight' => 4,
+        'file' => 'manage_proposal.inc',
+    );
+    $items['research-migration-project/manage-proposal/approve'] = array(
+        'title' => 'Approve Proposal',
+        'description' => 'Approve Proposal',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'esim_research_migration_proposal_approval_form',
+        ),
+        'access arguments' => array(
+            'Research Migration manage proposal',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'manage_proposal.inc',
+    );
+    $items['research-migration-project/manage-proposal/edit'] = array(
+        'title' => 'Edit Proposal',
+        'description' => 'Edit Proposal',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'esim_research_migration_proposal_edit_form',
+        ),
+        'access arguments' => array(
+            'Research Migration manage proposal',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'manage_proposal.inc',
+    );
+    $items['research-migration-project/manage-proposal/status'] = array(
+        'title' => 'Proposal Status',
+        'description' => 'Proposal Status',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'esim_research_migration_proposal_status_form',
+        ),
+        'access arguments' => array(
+            'Research Migration approve proposal',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'manage_proposal.inc',
+    );
+    $items['research-migration-project/abstract-approval/bulk'] = array(
+        'title' => 'Research Migration Manage Code',
+        'description' => 'Bulk Mangage',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'esim_research_migration_abstract_bulk_approval_form',
+        ),
+        'access arguments' => array(
+            'Research Migration bulk manage abstract',
+        ),
+        //'type' => MENU_LOCAL_TASK,
+        'weight' => 2,
+        'file' => 'abstract_bulk_approval.inc',
+    );
+    /* CODE UPLOAD */
+    $items['research-migration-project/abstract-code/edit-upload-files'] = array(
+        'title' => 'Research Migration Project Directory edit uploaded files for proposal',
+        'description' => 'Project Edit Upload',
+        'page callback' => 'drupal_get_form',
+        'access callback' => 'user_access',
+        'page arguments' => array(
+            'esim_research_migration_edit_upload_abstract_code_form',
+        ),
+        'access arguments' => array(
+            'Research Migration upload abstract',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'upload_code.inc',
+        'weight' => 2,
+    );
+    $items['research-migration-project/abstract-code'] = array(
+        'title' => 'Research Migration Project Directory Submission',
+        'description' => 'Abstract Submission',
+        'page callback' => 'esim_research_migration_abstract',
+        'access callback' => 'user_access',
+        'access arguments' => array(
+            'Research Migration upload abstract',
+        ),
+        'file' => 'upload_code.inc',
+    );
+    $items['research-migration-project/abstract-code/upload'] = array(
+        'title' => 'Research Migration Project Directory Submission',
+        'description' => 'Project Upload',
+        'page callback' => 'drupal_get_form',
+        'access callback' => 'user_access',
+        'page arguments' => array(
+            'esim_research_migration_upload_abstract_code_form',
+        ),
+        'access arguments' => array(
+            'Research Migration upload abstract',
+        ),
+        //'type' => MENU_LOCAL_TASK,
+        'file' => 'upload_code.inc',
+        'weight' => 2,
+    );
+    $items['research-migration-project/abstract-code/delete'] = array(
+        'title' => 'Delete Solution',
+        'description' => 'Delete Solution',
+        'page callback' => 'esim_research_migration_upload_code_delete',
+        'access arguments' => array(
+            'Research Migration upload code',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'upload_code_delete.inc',
+    );
+    /* CODE DOWNLOADS */
+    $items['research-migration-project/full-download/project'] = array(
+        'title' => 'Code Download',
+        'description' => 'Code Download',
+        'page callback' => 'esim_research_migration_download_full_project',
+        'access arguments' => array(
+            'Research Migration download code',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'full_download.inc',
+    );
+    /* COMPLETED  Research Migration */
+    $items['research-migration-project/completed-research-migration'] = array(
+        'title' => 'Completed Research Migration',
+        'page callback' => 'esim_research_migration_completed_proposals_all',
+        'access arguments' => array(
+            'Research Migration download code',
+        ),
+        'file' => 'esim_research_migration_details.inc',
+    );
+    /* LABS IN PROGRESS */
+    $items['research-migration-project/research-migration-progress'] = array(
+        'title' => 'Research Migration in Progress',
+        'page callback' => 'esim_research_migration_progress_all',
+        'access arguments' => array(
+            'Research Migration download code',
+        ),
+        'file' => 'esim_research_migration_details.inc',
+    );
+    $items['research-migration-project/list-of-project-titles'] = array(
+        'title' => 'List of available project titles',
+        'page callback' => 'list_of_available_project_titles',
+        'access arguments' => array(
+            'Research Migration Project titles list',
+        ),
+        'file' => 'available_project_titles_list.inc',
+    );
+    /* DOWNLOAD FOR EVERYONE */
+    $items['research-migration-project/research-migration-run'] = array(
+        'title' => 'Download Codes',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'esim_research_migration_run_form',
+        ),
+        'access arguments' => array(
+            'Research Migration download code',
+        ),
+        //'type' => MENU_NORMAL_ITEM,
+        'file' => 'run.inc',
+    );
+    $items['research-migration-project/download/resource-file'] = array(
+        'title' => 'Download user defined compound file',
+        'description' => 'Download resource file',
+        'page callback' => 'esim_research_migration_download_upload_file',
+        'access arguments' => array(
+            'download code',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'download.inc',
+    );
+    $items['research-migration-project/download/project-title-file'] = array(
+        'title' => 'Download Project Title file',
+        'description' => 'Download Project Title file',
+        'page callback' => 'download_research_migration_project_title_files',
+        'access arguments' => array(
+            'download code',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'available_project_titles_list.inc',
+    );
+    $items['research-migration-project/download/project-file'] = array(
+        'title' => 'Download Project file',
+        'description' => 'Download project file',
+        'page callback' => 'esim_research_migration_project_files',
+        'access arguments' => array(
+            'download code',
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'download.inc',
+    );
+    /* ADMIN SETTINGS */
+    $items['admin/settings/research-migration'] = array(
+        'title' => 'Research Migration Settings',
+        'description' => 'Research Migration Settings',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'esim_research_migration_settings_form',
+        ),
+        'access arguments' => array(
+            'administer  Research Migration',
+        ),
+        //'type' => MENU_NORMAL_ITEM,
+        'file' => 'settings.inc',
+    );
+    /* AJAX REQUEST */
+    $items['research-migration-project/certificates'] = array(
+        'title' => 'List of Research Migration Project Certificates',
+        'description' => 'List of Research Migration Project Certificates',
+        'page callback' => '_list_research_migration_certificates',
+        'access arguments' => array(
+            'list Research Migration certificates',
+        ),
+        'file' => 'pdf/list_research_migration_certificate.inc',
+    );
+    $items['research-migration-project/certificates/generate-pdf'] = array(
+        'title' => 'Download Certificate',
+        'description' => 'Download Certificate',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array(
+            'generate_pdf',
+        ),
+        //'type' => MENU_CALLBACK,
+        'access arguments' => array(
+            'generate pdf',
+        ),
+        'file' => 'pdf/cert_new.inc',
+    );
+    /*$items['research-migration-project/certificates-custom'] = array(
+    'title'=> 'List of research migration Custom Certificates',
+    'description'=> 'List of research migration Custom Certificates',
+    'page callback'=> '_list_esim_research_migration_custom_certificates',
+    'access arguments'=> array(
+    'list research migration custom certificates'
+    ),
+    'file'=> 'pdf/list_mentor_certificates.inc'
+    );
+    $items['research-migration-project/certificates-custom/pdf'] = array(
+    'title'=> 'Download Certificate',
+    'description'=> 'Download Certificate',
+    'page callback'=> 'drupal_get_form',
+    'page arguments'=> array(
+    'generate_pdf'
+    ),
+    //'type'=> MENU_CALLBACK,
+    'access arguments'=> array(
+    'generate pdf'
+    ),
+    'file'=> 'pdf/mentor_cert_pdf.inc'
+    ); */
+    $items['research-migration-project/certificates/verify'] = array(
+        "title" => "Certificate Verification",
+        "page callback" => "verify_certificates",
+        'page arguments' => array(
+            'verify_certificates',
+        ),
+        "access arguments" => array(
+            "verify rm certificates",
+        ),
+        //'type' => MENU_CALLBACK,
+        'file' => 'pdf/verify_certificates.inc',
+    );
+    return $items;
+}
+/**
+ * Implementation of hook_perm().
+ */
+function esim_research_migration_permission()
+{
+    return array(
+        // 'manage lecture videos' => array(
+        //     'title' => t('Add/Manage lecture videos'),
+        //     'restrict access' => true,
+        // ),
+        // 'view lecture videos' => array(
+        //     'title' => t('View lecture videos'),
+        //     'restrict access' => true,
+        // ),
+        // 'edit lecture videos' => array(
+        //     'title' => t('edit lecture videos'),
+        //     'restrict access' => true,
+        // ),
+        'Research Migration add project titles' => array(
+            'title' => t('Research Migration add project titles'),
+            'restrict access' => true,
+        ),
+        'Research Migration create proposal' => array(
+            'title' => t('Research Migration create proposal'),
+            'restrict access' => true,
+        ),
+        'Research Migration manage proposal' => array(
+            'title' => t('Research Migration manage proposal'),
+            'restrict access' => true,
+        ),
+        'Research Migration edit proposal' => array(
+            'title' => t('Research Migration edit proposal'),
+            'restrict access' => true,
+        ),
+        'Research Migration approve proposal' => array(
+            'title' => t('Research Migration approve proposal'),
+            'restrict access' => true,
+        ),
+        'Research Migration propose solution' => array(
+            'title' => t('Research Migration propose solution'),
+            'restrict access' => true,
+        ),
+        'Research Migration Project titles list' => array(
+            'title' => t('Research Migration Project titles list'),
+            'restrict access' => true,
+        ),
+        'Research Migration approve abstract' => array(
+            'title' => t('Research Migration approve code'),
+            'restrict access' => true,
+        ),
+        'Research Migration bulk manage abstract' => array(
+            'title' => t('Research Migration bulk manage abstract'),
+            'restrict access' => true,
+        ),
+        'Research Migration bulk delete abstract' => array(
+            'title' => t('Research Migration bulk delete code'),
+            'restrict access' => true,
+        ),
+        'Research Migration upload abstract' => array(
+            'title' => t('Research Migration upload code'),
+            'restrict access' => true,
+        ),
+        'Research Migration download code' => array(
+            'title' => t('Research Migration download code'),
+            'restrict access' => true,
+        ),
+        'administer  Research Migration' => array(
+            'title' => t('administer Research Migration'),
+            'restrict access' => true,
+        ),
+        'Research Migration generate abstract' => array(
+            'title' => t('Research Migration generate abstract'),
+            'restrict access' => true,
+        ),
+        "list Research Migration certificates" => array(
+            "title" => t("list the certificates"),
+            "description" => t("list the certificates"),
+            'restrict access' => true,
+        ),
+        "list Research Migration custom certificates" => array(
+            "title" => t("list the mentor certificates"),
+            "description" => t("list the mentor certificates"),
+            'restrict access' => true,
+        ),
+        "verify rm certificates" => array(
+            "title" => t("verify the rm certificates"),
+            "description" => t("verify the rm certificates"),
+            "restrict access" => true,
+        ),
+
+    );
+}
+/*************************** VALIDATION FUNCTIONS *****************************/
+function esim_research_migration_check_valid_filename($file_name)
+{
+    if (!preg_match('/^[0-9a-zA-Z\.\_]+$/', $file_name)) {
+        return false;
+    } else if (substr_count($file_name, ".") > 1) {
+        return false;
+    } else {
+        return true;
+    }
+
+}
+function esim_research_migration_check_name($name = '')
+{
+    if (!preg_match('/^[0-9a-zA-Z\ ]+$/', $name)) {
+        return false;
+    } else {
+        return true;
+    }
+
+}
+function esim_research_migration_check_code_number($number = '')
+{
+    if (!preg_match('/^[0-9]+$/', $number)) {
+        return false;
+    } else {
+        return true;
+    }
+
+}
+function esim_research_migration_path()
+{
+    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'esim_uploads/research_migration_uploads/';
+}
+function esim_research_migration_file_path($value = '')
+{
+    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'esim_uploads/';
+}
+function esim_research_migration_project_titles_resource_file_path()
+{
+    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'esim_uploads/research_migration_titles_resource_files/';
+}
+function default_value_for_uploaded_files($filetype, $proposal_id)
+{
+    $query = \Drupal::database()->select('research_migration_submitted_abstracts_file');
+    $query->fields('research_migration_submitted_abstracts_file');
+    $query->condition('proposal_id', $proposal_id);
+
+    if ($filetype == "S" || $filetype == "A") {
+        $query->condition('filetype', $filetype);
+        return $query->execute()->fetchObject();
+    }
+
+    return;
+}
+/************************* USER VERIFICATION FUNCTIONS ************************/
+function esim_research_migration_get_proposal()
+{
+    $user = \Drupal::currentUser();
+    $query = \Drupal::database()->select('research_migration_proposal');
+    $query->fields('research_migration_proposal');
+    $query->condition('uid', $user->id());
+    $query->orderBy('id', 'DESC');
+    $query->range(0, 1);
+    $proposal_q = $query->execute();
+    $proposal_data = $proposal_q->fetchObject();
+    if (!$proposal_data) {
+        \Drupal::messenger()->addError("You do not have any approved  Research Migration proposal. Please propose a Research Migration");
+        return FALSE;
+    } //!$proposal_data
+    switch ($proposal_data->approval_status) {
+        case 0:
+            \Drupal::messenger()->addStatus(t('Proposal is awaiting approval.'));
+            return false;
+        case 1:
+            return $proposal_data;
+        case 2:
+            \Drupal::messenger()->addError(t('Proposal has been dis-approved.'));
+            return false;
+        case 3:
+            \Drupal::messenger()->addStatus(t('Proposal has been marked as completed.'));
+            return false;
+        default:
+            \Drupal::messenger()->addError(t('Invalid proposal state. Please contact site administrator for further information.'));
+            return false;
+    } //$proposal_data->approval_status
+    return false;
+}
+/*************************************************************************/
+/***** Function To convert only first charater of string in uppercase ****/
+/*************************************************************************/
+/*function ucname($string)
+{
+$string = ucwords(strtolower($string));
+foreach (array(
+'-',
+'\''
+) as $delimiter)
+{
+if (strpos($string, $delimiter) !== false)
+{
+$string = implode($delimiter, array_map('ucfirst', explode($delimiter, $string)));
+} //strpos($string, $delimiter) !== false
+} //array( '-', '\'') as $delimiter
+return $string;
+}*/
+function _rm_df_sentence_case($string)
+{
+    $string = ucwords(strtolower($string));
+    foreach (array(
+        '-',
+        '\'',
+    ) as $delimiter) {
+        if (strpos($string, $delimiter) !== false) {
+            $string = implode($delimiter, array_map('ucfirst', explode($delimiter, $string)));
+        } //strpos($string, $delimiter) !== false
+    } //array( '-', '\'') as $delimiter
+    return $string;
+}
+function _rm_df_list_of_states()
+{
+    $states = array(
+        0 => '-Select-',
+    );
+    $query = \Drupal::database()->select('list_states_of_india');
+    $query->fields('list_states_of_india');
+    //$query->orderBy('', '');
+    $states_list = $query->execute();
+    while ($states_list_data = $states_list->fetchObject()) {
+        $states[$states_list_data->state] = $states_list_data->state;
+    } //$states_list_data = $states_list->fetchObject()
+    return $states;
+}
+function _rm_df_list_of_cities()
+{
+    $city = array(
+        0 => '-Select-',
+    );
+    $query = \Drupal::database()->select('list_cities_of_india');
+    $query->fields('list_cities_of_india');
+    $query->orderBy('city', 'ASC');
+    $city_list = $query->execute();
+    while ($city_list_data = $city_list->fetchObject()) {
+        $city[$city_list_data->city] = $city_list_data->city;
+    } //$city_list_data = $city_list->fetchObject()
+    return $city;
+}
+function _rm_df_list_of_pincodes()
+{
+    $pincode = array(
+        0 => '-Select-',
+    );
+    $query = \Drupal::database()->select('list_of_all_india_pincode');
+    $query->fields('list_of_all_india_pincode');
+    $query->orderBy('pincode', 'ASC');
+    $pincode_list = $query->execute();
+    while ($pincode_list_data = $pincode_list->fetchObject()) {
+        $pincode[$pincode_list_data->pincode] = $pincode_list_data->pincode;
+    } //$pincode_list_data = $pincode_list->fetchObject()
+    return $pincode;
+}
+function _rm_df_list_of_departments()
+{
+    $department = array();
+    $query = \Drupal::database()->select('list_of_departments');
+    $query->fields('list_of_departments');
+    $query->orderBy('id', 'DESC');
+    $department_list = $query->execute();
+    while ($department_list_data = $department_list->fetchObject()) {
+        $department[$department_list_data->department] = $department_list_data->department;
+    } //$department_list_data = $department_list->fetchObject()
+    return $department;
+}
+
+function _rm_list_of_research_migration()
+{
+    $existing_research_migration = array();
+    $result = \Drupal::database()->query("SELECT * from rm_list_of_project_titles WHERE {rm_project_title_name} NOT IN( SELECT  project_title from research_migration_proposal WHERE approval_status = 0 OR approval_status = 1 OR approval_status = 3)");
+    while ($research_migration_list_data = $result->fetchObject()) {
+        $existing_research_migration[$research_migration_list_data->rm_project_title_name] = $research_migration_list_data->rm_project_title_name;
+    }
+    return $existing_research_migration;
+}
+
+function _rm_list_of_versions(){
+    $versions = array();
+    $query = \Drupal::database()->select('research_migration_software_version');
+    $query->fields('research_migration_software_version');
+    $version_list = $query->execute();
+    while($version_data = $version_list->fetchObject()){
+        $versions[$version_data->id] = $version_data->research_migration_version;
+    }
+    return $versions;
+}
+
+function _rm_list_of_simulation_types(){
+    $simulation_types = array();
+    $query = \Drupal::database()->select('research_migration_simulation_type');
+    $query->fields('research_migration_simulation_type');
+    $simulation_type_list = $query->execute();
+    while ($simulation_type_data = $simulation_type_list->fetchObject()) {
+        $simulation_types[$simulation_type_data->id] = $simulation_type_data->simulation_type;
+    }
+    return $simulation_types;
+}
+
+function _rm_list_of_solvers($simulation_id){
+    $simulation_id = $simulation_id;
+    $solvers = array(
+        0 => '-Select-',
+        );
+    $query = \Drupal::database()->select('research_migration_solvers');
+    $query->fields('research_migration_solvers');
+    $query->condition('simulation_type_id',$simulation_id);
+    $solvers_list = $query->execute();
+    while($solvers_data = $solvers_list->fetchObject()){
+        $solvers[$solvers_data->solver_name] = $solvers_data->solver_name;
+    }
+    return $solvers;
+}
+
+function _rm_dir_name($project, $proposar_name)
+{
+   	$project_title = preg_replace("/_+/", "_",preg_replace('/[^A-Za-z0-9\-]/', '_', $project));
+	$proposar_name = $proposar_name;
+	$dir_name = $project_title . ' By ' . $proposar_name;
+	$directory_name = str_replace("__", "_", str_replace(" ", "_", str_replace("/","_", trim($dir_name))));
+	//var_dump($directory_name);die;
+	return $directory_name;
+}
+function esim_research_migration_document_path()
+{
+    return $_SERVER['DOCUMENT_ROOT'] . base_path() . 'esim_uploads/research_migration_uploads/';
+}
+function _rm_RenameDir($proposal_id, $dir_name)
+{
+    $proposal_id = $proposal_id;
+    $dir_name = $dir_name;
+    $query = \Drupal::database()->query("SELECT directory_name,id FROM research_migration_proposal WHERE id = :proposal_id", array(
+        ':proposal_id' => $proposal_id,
+    ));
+    $result = $query->fetchObject();
+    if ($result != null) {
+        $files = scandir(esim_research_migration_path());
+        $files_id_dir = esim_research_migration_path() . $result->id;
+        //var_dump($files);die;
+        $file_dir = esim_research_migration_path() . $result->directory_name;
+        if (is_dir($file_dir)) {
+            $new_directory_name = rename(esim_research_migration_path() . $result->directory_name, esim_research_migration_path() . $dir_name);
+            return $new_directory_name;
+        } //is_dir($file_dir)
+        else if (is_dir($files_id_dir)) {
+            $new_directory_name = rename(esim_research_migration_path() . $result->id, esim_research_migration_path() . $dir_name);
+            return $new_directory_name;
+        } //is_dir($files_id_dir)
+        else {
+            \Drupal::messenger()->addMessage('Directory not available for rename.');
+            return;
+        }
+    } //$result != NULL
+    else {
+        \Drupal::messenger()->addMessage('Project directory name not present in databse');
+        return;
+    }
+    return;
+}
+function CreateReadmeFileResearchMigrationProject($proposal_id)
+{
+    $result = \Drupal::database()->query("
+                        SELECT * from research_migration_proposal WHERE id = :proposal_id", array(
+        ":proposal_id" => $proposal_id,
+    ));
+    $proposal_data = $result->fetchObject();
+    $root_path = esim_research_migration_path();
+    $readme_file = fopen($root_path . $proposal_data->directory_name . "/README.txt", "w") or die("Unable to open file!");
+    $txt = "";
+    $txt .= "About the Research Migration";
+    $txt .= "\n" . "\n";
+    $txt .= "Title Of The Research Migration Project: " . $proposal_data->project_title . "\n";
+    $txt .= "Proposar Name: " . $proposal_data->name_title . " " . $proposal_data->contributor_name . "\n";
+    $txt .= "University: " . $proposal_data->university . "\n";
+    $txt .= "\n" . "\n";
+    $txt .= " Research Migration Project By FOSSEE, IIT Bombay" . "\n";
+    fwrite($readme_file, $txt);
+    fclose($readme_file);
+    return $txt;
+}
+function _rm_rrmdir_project($prop_id)
+{
+    $proposal_id = $prop_id;
+    $result = \Drupal::database()->query("SELECT * from research_migration_proposal WHERE id = :proposal_id", array(
+        ":proposal_id" => $proposal_id,
+    ));
+    $proposal_data = $result->fetchObject();
+    if (!$proposal_data) {
+        \Drupal::messenger()->addError("Data not found");
+        return FALSE;
+    }
+    $root_path = esim_research_migration_document_path();
+    $dir = $root_path . $proposal_data->directory_name;
+    if ($proposal_data->id == $prop_id) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir . "/" . $object) == "dir") {
+                        _rm_rrmdir($dir . "/" . $object);
+                    } //filetype($dir . "/" . $object) == "dir"
+                    else {
+                        unlink($dir . "/" . $object);
+                    }
+                } //$object != "." && $object != ".."
+            } //$objects as $object
+            reset($objects);
+            rmdir($dir);
+            \Drupal::messenger()->addStatus("Directory deleted successfully");
+            return TRUE;
+        } //is_dir($dir)
+        \Drupal::messenger()->addError("Directory not present");
+        return FALSE;
+    } //$proposal_data->id == $prop_id
+    else {
+        \Drupal::messenger()->addError("Data not found");
+        return FALSE;
+    }
+}
+function _rm_rrmdir($dir)
+{
+    if (is_dir($dir)) {
+        $objects = scandir($dir);
+        foreach ($objects as $object) {
+            if ($object != "." && $object != "..") {
+                if (filetype($dir . "/" . $object) == "dir") {
+                    _rm_rrmdir($dir . "/" . $object);
+                } else {
+                    unlink($dir . "/" . $object);
+                }
+
+            } //$object != "." && $object != ".."
+        } //$objects as $object
+        reset($objects);
+        rmdir($dir);
+    } //is_dir($dir)
+}
+function add_lecture_videos_form($form,$form_state) {
+        $form = array();
+        $form['video_sno'] = array(
+            '#type'  => 'textfield',
+            '#title' => t('S.No of the video'),
+            '#description' => t('Enter s.no starting from 1 to 100'),
+            '#required' => TRUE
+        );
+        $form['title_of_video'] = array(
+            '#type' => 'textfield',
+            '#title' => t("Title of the video lecture"),
+            '#required' => TRUE
+        );
+        $form["description_of_video"] = array(
+            "#type" => "text_format",
+            '#format' => 'full_html',
+            "#title" => "Description of the video",
+            "#required" => TRUE
+        );
+        $form["link_to_video"] = array(
+            "#type" => "textfield",
+            "#title" => "Paste the URL of the video lecture",
+            '#description' => t('Copy paste the static url of the video, for eg: https://static.fossee.in/esim/<path_to_video>'),
+            '#size' => 255,
+            '#maxlength' => 255,
+            '#required' => TRUE
+        );
+        $form["link_to_script_file"] = array(
+            "#type" => "textfield",
+            "#title" => "Paste the URL of the script file  of the video lecture",
+            '#description' => t('Copy paste the static url of the script file, for eg: https://static.fossee.in/esim/<path_to_script_file>'),
+            '#size' => 255,
+            '#maxlength' => 255,
+            '#required' =>TRUE
+        );
+        $form['lecture_visibility'] = array(
+            '#type' => 'select',
+            '#title' => t('Do you want to disable this lecture?'),
+            '#options' => array(
+                'Y' => 'Yes',
+                'N'  => 'No'
+            ),
+            '#required' => TRUE
+        );  
+        $form["submit"] = array(
+            "#type" => "submit",
+            "#value" => "Submit"
+        );
+        return $form;
+    }
+function add_lecture_videos_form_submit($form, $form_state){
+    $v = $form_state['values'];
+    $query = "INSERT INTO lecture_videos(video_sno, video_title, video_description_text, video_description_text_format, script_file_link, video_link, video_visibility, creation_date)VALUES(:video_sno, :video_title, :video_description_text, :video_description_text_format, :script_file_link, :video_link, :video_visibility, :creation_date)";
+    $args = array(
+        ":video_sno" => $v ['video_sno']                                                                                                                                         ,
+        ":video_title" => $v['title_of_video'],
+        ":video_description_text" => $v['description_of_video']['value'],
+        ":video_description_text_format" => $v['description_of_video']['format'],
+        ":script_file_link" => $v['link_to_script_file'],
+        ":video_link" => $v['link_to_video'],
+        ":video_visibility" => $v['lecture_visibility'],
+        ":creation_date" => time() 
+
+    );
+    $result = \Drupal::database()->query($query, $args);
+    if(!$result){
+        \Drupal::messenger()->addError("Something went wrong, please contact the web team");
+    }
+    else{
+        \Drupal::messenger()->addStatus("Video has been added successfully");
+    }
+    drupal_goto('lecture-videos/add');
+}
+
+
+function view_lecture_videos(){
+    $page_content = "<div id='lecture-video-wrapper'>";
+    //$lecture_video_rows = db_query("select * from lecture_videos where video_visibility = 'N' order by video_sno ASC");
+    $query = \Drupal::database()->select('lecture_videos');
+    $query->fields('lecture_videos');
+    $query->condition('video_visibility', 'N');
+    $query->orderBy('video_sno', 'ASC');
+    $row = $query->execute();
+    while($result = $row->fetchObject()){
+        $page_content .= "<div class='container-testimonial'><h3><strong>{$result->video_title}</strong></h3>";
+        $page_content .= "<video title='' controls='' preload='' data-setup='{}' width='500' height='250'>
+ <source src={$result->video_link} type='video/mp4'></video>";
+ $page_content .= "<span>{$result->video_description_text}</span><h4>Click <a href='{$result->script_file_link}' target='_blank'>here</a> to view the script file</h4></div>";
+    }
+    return $page_content;
+}
+
+// @FIXME
+// The Assets API has totally changed. CSS, JavaScript, and libraries are now
+// attached directly to render arrays using the #attached property.
+// 
+// 
+// @see https://www.drupal.org/node/2169605
+// @see https://www.drupal.org/node/2408597
+// drupal_add_css("
+// .container-testimonial {
+//   /*border: 2px solid #ccc;
+//   background-color: #eee;*/
+//   border: 4px inset #4af5d2;
+//   background-color: #f2fffd;
+//   border-radius: 5px;
+//   padding: 16px;
+//   margin: 10px 0;
+//   color:black;
+// }
+// 
+// .container-testimonial::after {
+//   content: '';
+//   clear: both;
+//   display: table;
+// }
+// 
+// .container-testimonial video {
+//   float: left;
+//   margin-right: 20px;
+//   width: 500px !important;
+//   height: 300px !important;
+// }
+// 
+// .container-testimonial span {
+//   font-size: 11px;
+//   text-align:justify;
+// }
+// 
+// .container-testimonial p {
+//   margin: 0px !important;
+// }
+// 
+// 
+// @media (max-width: 768px) {
+//   .container-testimonial {
+//       text-align: center;
+//   }
+//   .container-testimonial video {
+//       margin: auto;
+//       float: none;
+//       display: block;
+//       width: 100% !important;
+//   }
+// 
+// 
+// 
+// }", "inline");
+
+
+function manage_lecture_videos(){
+    $lecture_videos_array = array();
+    $page_content = "";
+    $query = \Drupal::database()->select('lecture_videos');
+    $query->fields('lecture_videos');
+    $query->orderBy('video_sno', 'ASC');
+    $videos_q = $query->execute();
+    while($result = $videos_q->fetchObject()){
+        if($result->video_visibility == 'Y'){
+            $visibility = 'Yes';
+        }
+        else{
+            $visibility = 'No';
+        }
+        // @FIXME
+// l() expects a Url object, created from a route name or external URI.
+// $lecture_videos_array[$result->id] = array(
+//             $result->video_sno,
+//             $result->video_title,
+//             $visibility,
+//             date('d-m-Y', $result->creation_date),
+//             l('Edit details', 'lecture-videos/edit/' . $result->video_sno)
+//         );
+
+    }
+    $lecture_videos_header = array(
+            'S.No',
+            'Title of the video',
+            'Video disabled',
+            'Date of video creation',
+            'Action'
+        );
+        // @FIXME
+// theme() has been renamed to _theme() and should NEVER be called directly.
+// Calling _theme() directly can alter the expected output and potentially
+// introduce security issues (see https://www.drupal.org/node/2195739). You
+// should use renderable arrays instead.
+// 
+// 
+// @see https://www.drupal.org/node/2195739
+// $page_content .= theme("table", array(
+//             'header' => $lecture_videos_header,
+//             'rows' => $lecture_videos_array
+//         ));
+
+        return $page_content;
+}
+
+
+/******************************************************************************/
+/**************************** EDIT LECTURE VIDEOS  ****************************/
+/******************************************************************************/
+function edit_lecture_videos_form($form, &$form_state)
+{
+    $user = \Drupal::currentUser();
+    /* get current proposal */
+    $video_id = (int) arg (2);
+    //$proposal_q = db_query("SELECT * FROM {research_migration_proposal} WHERE id = %d", $proposal_id);
+    $query = \Drupal::database()->select('lecture_videos');
+    $query->fields('lecture_videos');
+    $query->condition('id', $video_id);
+    $lecture_video_q = $query->execute();
+    $lecture_video_data = $lecture_video_q->fetchObject();
+    //var_dump($lecture_video_data);die;
+
+    $form['video_sno'] = array(
+        '#type' => 'textfield',
+        '#title' => t('S.No of the video'),
+        '#required' => true,
+        '#disabled' => True,
+        '#default_value' => $lecture_video_data->video_sno,
+    );
+
+    $form['title_of_video'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Title of the video lecture'),
+        // '#size' => 30,
+        // '#maxlength' => 50,
+        '#required' => true,
+        '#default_value' => $lecture_video_data->video_title,
+    );
+   
+    $form['description_of_video'] = array(
+        '#type' => 'text_format',
+        '#format' => $lecture_video_data->video_description_text_format,
+        '#title' => 'Description of the video',
+        '#required' => TRUE,
+        '#default_value'=> $lecture_video_data->video_description_text,
+    );
+    $form['link_to_video'] = array(
+        '#type' => 'textfield',
+        "#title" => "Paste the URL of the video lecture",
+        '#size' => 255,
+        '#maxlength' => 255,
+        '#required' => TRUE,
+        '#default_value'=> $lecture_video_data->video_link,
+    );
+    $form["link_to_script_file"] = array(
+        "#type" => "textfield",
+        "#title" => "Paste the URL of the script file  of the video lecture",
+       
+        '#size' => 255,
+        '#maxlength' => 255,
+        '#required' =>TRUE,
+        '#default_value'=> $lecture_video_data->script_file_link,
+    );
+    //var_dump($lecture_video_data->video_visibility);die;
+    $form['lecture_visibility'] = array(
+        '#type' => 'select',
+        '#title' => t('Do you want to disable this lecture?'),
+        '#default_value'=> t($lecture_video_data->video_visibility),
+        '#options' => array(
+            'Y' => t('Yes'),
+            'N'  => t('No')
+        ),
+        '#required' => TRUE,
+    ); 
+    $form["submit"] = array(
+        "#type" => "submit",
+        "#value" => "Submit"
+    );
+    
+    return $form;
+}
+
+function edit_lecture_videos_form_submit($form, &$form_state) {
+    $v = $form_state['values'];
+    $query = "UPDATE lecture_videos SET
+            video_title = :video_title,
+            video_description_text = :video_description_text,
+            video_description_text_format = :video_description_text_format,
+            script_file_link = :script_file_link,
+            video_link = :video_link,
+            video_visibility = :video_visibility
+            WHERE video_sno = :video_sno";
+    $args = array(
+        ":video_title" => $v['title_of_video'],
+        ":video_description_text" => $v['description_of_video']['value'],
+        ":video_description_text_format" => $v['description_of_video']['format'],
+        ":script_file_link" => $v['link_to_script_file'],
+        ":video_link" => $v['link_to_video'],
+        ":video_visibility" => $v['lecture_visibility'],
+        ":video_sno" => $v['video_sno']
+    );
+    $result= \Drupal::database()->query($query, $args);
+    \Drupal::messenger()->addStatus('Video details updated successfully');
+    drupal_goto('lecture-videos/manage');
+}
+
+/**
+ * Implements hook_mail().
+ */
+function esim_research_migration_mail($key, &$message, $params) {
+    $site_name = Html::escape((string) \Drupal::config('system.site')->get('name'));
+    $message['body'] = $message['body'] ?? [];
+
+    switch ($key) {
+        case 'research_migration_proposal_received': {
+            $proposal_id = $params['research_migration_proposal_received']['result1'] ?? NULL;
+            $user_id = $params['research_migration_proposal_received']['user_id'] ?? NULL;
+            $proposal_data = $proposal_id ? \Drupal::database()->select('research_migration_proposal')->fields('research_migration_proposal')->condition('id', $proposal_id)->range(0, 1)->execute()->fetchObject() : NULL;
+            $user = $user_id ? \Drupal::entityTypeManager()->getStorage('user')->load($user_id) : NULL;
+            $message['headers'] = $params['research_migration_proposal_received']['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] Your Research Migration Project proposal has been received', ['@site_name' => $site_name]);
+            if ($proposal_data && $user) {
+                $message['body'][] = t('Dear @name,', ['@name' => $proposal_data->contributor_name]);
+                $message['body'][] = '';
+                $message['body'][] = t('We have received your Research Migration Project proposal with the following details:');
+                $message['body'][] = t('Full Name: @full_name', ['@full_name' => $proposal_data->name_title . ' ' . $proposal_data->contributor_name]);
+                $message['body'][] = t('Email: @email', ['@email' => $user->getEmail()]);
+                $message['body'][] = t('University/Institute: @university', ['@university' => $proposal_data->university]);
+                $message['body'][] = t('City: @city', ['@city' => $proposal_data->city]);
+                $message['body'][] = t('State: @state', ['@state' => $proposal_data->state]);
+                $message['body'][] = t('Country: @country', ['@country' => $proposal_data->country]);
+                $message['body'][] = t('Project Title: @title', ['@title' => $proposal_data->project_title]);
+                $message['body'][] = t('Date of Proposal: @date', ['@date' => date('d/m/Y', $proposal_data->creation_date)]);
+                $message['body'][] = t('Expected Date of Completion: @date', ['@date' => date('d/m/Y', $proposal_data->expected_date_of_completion)]);
+                $message['body'][] = '';
+                $message['body'][] = t('Your proposal is under review. You will soon receive an email when it has been approved or disapproved.');
+                $message['body'][] = '';
+                $message['body'][] = t('Best Wishes,');
+                $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+                $message['body'][] = t('FOSSEE, IIT Bombay');
+            }
+            break;
+        }
+
+        case 'research_migration_proposal_approved': {
+            $proposal_id = $params['research_migration_proposal_approved']['proposal_id'] ?? NULL;
+            $user_id = $params['research_migration_proposal_approved']['user_id'] ?? NULL;
+            $proposal_data = $proposal_id ? \Drupal::database()->select('research_migration_proposal')->fields('research_migration_proposal')->condition('id', $proposal_id)->range(0, 1)->execute()->fetchObject() : NULL;
+            $user = $user_id ? \Drupal::entityTypeManager()->getStorage('user')->load($user_id) : NULL;
+            $message['headers'] = $params['research_migration_proposal_approved']['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] Your Research Migration Project proposal has been approved', ['@site_name' => $site_name]);
+            $url = \Drupal::request()->getSchemeAndHttpHost() . '/research-migration-project/abstract-code';
+            if ($proposal_data && $user) {
+                $message['body'][] = t('Dear @name,', ['@name' => $proposal_data->contributor_name]);
+                $message['body'][] = '';
+                $message['body'][] = t('Your Research Migration Project proposal has been approved.');
+                $message['body'][] = t('Project Title: @title', ['@title' => $proposal_data->project_title]);
+                $message['body'][] = '';
+                $message['body'][] = t('You can upload your project files at: @url', ['@url' => $url]);
+                $message['body'][] = '';
+                $message['body'][] = t('Best Wishes,');
+                $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+                $message['body'][] = t('FOSSEE, IIT Bombay');
+            }
+            break;
+        }
+
+        case 'research_migration_proposal_disapproved': {
+            $proposal_id = $params['research_migration_proposal_disapproved']['proposal_id'] ?? NULL;
+            $user_id = $params['research_migration_proposal_disapproved']['user_id'] ?? NULL;
+            $proposal_data = $proposal_id ? \Drupal::database()->select('research_migration_proposal')->fields('research_migration_proposal')->condition('id', $proposal_id)->range(0, 1)->execute()->fetchObject() : NULL;
+            $user = $user_id ? \Drupal::entityTypeManager()->getStorage('user')->load($user_id) : NULL;
+            $message['headers'] = $params['research_migration_proposal_disapproved']['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] Your Research Migration Project proposal has been disapproved', ['@site_name' => $site_name]);
+            if ($proposal_data && $user) {
+                $message['body'][] = t('Dear @name,', ['@name' => $proposal_data->contributor_name]);
+                $message['body'][] = '';
+                $message['body'][] = t('We regret to inform you that your Research Migration Project proposal has been disapproved.');
+                $message['body'][] = t('Project Title: @title', ['@title' => $proposal_data->project_title]);
+                if (!empty($proposal_data->dissapproval_reason)) {
+                    $message['body'][] = t('Reason for rejection: @reason', ['@reason' => $proposal_data->dissapproval_reason]);
+                }
+                $message['body'][] = '';
+                $message['body'][] = t('You are welcome to submit a new proposal.');
+                $message['body'][] = '';
+                $message['body'][] = t('Best Wishes,');
+                $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+                $message['body'][] = t('FOSSEE, IIT Bombay');
+            }
+            break;
+        }
+
+        case 'research_migration_proposal_completed': {
+            $proposal_id = $params['research_migration_proposal_completed']['proposal_id'] ?? NULL;
+            $user_id = $params['research_migration_proposal_completed']['user_id'] ?? NULL;
+            $proposal_data = $proposal_id ? \Drupal::database()->select('research_migration_proposal')->fields('research_migration_proposal')->condition('id', $proposal_id)->range(0, 1)->execute()->fetchObject() : NULL;
+            $message['headers'] = $params['research_migration_proposal_completed']['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] Your Research Migration Project has been completed', ['@site_name' => $site_name]);
+            if ($proposal_data) {
+                $message['body'][] = t('Dear @name,', ['@name' => $proposal_data->contributor_name]);
+                $message['body'][] = '';
+                $message['body'][] = t('Your Research Migration Project has been completed successfully.');
+                $message['body'][] = t('Project Title: @title', ['@title' => $proposal_data->project_title]);
+                $message['body'][] = '';
+                $message['body'][] = t('Best Wishes,');
+                $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+                $message['body'][] = t('FOSSEE, IIT Bombay');
+            }
+            break;
+        }
+
+        case 'research_migration_proposal_deleted': {
+            $proposal_id = $params['research_migration_proposal_deleted']['proposal_id'] ?? NULL;
+            $proposal_data = $proposal_id ? \Drupal::database()->select('research_migration_proposal')->fields('research_migration_proposal')->condition('id', $proposal_id)->range(0, 1)->execute()->fetchObject() : NULL;
+            $message['headers'] = $params['research_migration_proposal_deleted']['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] Your Research Migration Project proposal has been deleted', ['@site_name' => $site_name]);
+            if ($proposal_data) {
+                $message['body'][] = t('Dear @name,', ['@name' => $proposal_data->contributor_name]);
+                $message['body'][] = '';
+                $message['body'][] = t('Your Research Migration Project proposal has been deleted.');
+                $message['body'][] = t('Project Title: @title', ['@title' => $proposal_data->project_title]);
+                $message['body'][] = '';
+                $message['body'][] = t('Best Wishes,');
+                $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+                $message['body'][] = t('FOSSEE, IIT Bombay');
+            }
+            break;
+        }
+
+        case 'abstract_uploaded': {
+            $proposal_id = $params['abstract_uploaded']['proposal_id'] ?? NULL;
+            $proposal_data = $proposal_id ? \Drupal::database()->select('research_migration_proposal')->fields('research_migration_proposal')->condition('id', $proposal_id)->range(0, 1)->execute()->fetchObject() : NULL;
+            $message['headers'] = $params['abstract_uploaded']['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] You have uploaded Research Migration Project files', ['@site_name' => $site_name]);
+            if ($proposal_data) {
+                $message['body'][] = t('Dear @name,', ['@name' => $proposal_data->contributor_name]);
+                $message['body'][] = '';
+                $message['body'][] = t('You have uploaded project files for the following Research Migration Project:');
+                $message['body'][] = t('Project Title: @title', ['@title' => $proposal_data->project_title]);
+                $message['body'][] = '';
+                $message['body'][] = t('Your files are under review. You will be notified when they have been approved.');
+                $message['body'][] = '';
+                $message['body'][] = t('Best Wishes,');
+                $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+                $message['body'][] = t('FOSSEE, IIT Bombay');
+            }
+            break;
+        }
+
+        case 'abstract_edit_file_uploaded': {
+            $proposal_id = $params['abstract_edit_file_uploaded']['proposal_id'] ?? NULL;
+            $proposal_data = $proposal_id ? \Drupal::database()->select('research_migration_proposal')->fields('research_migration_proposal')->condition('id', $proposal_id)->range(0, 1)->execute()->fetchObject() : NULL;
+            $message['headers'] = $params['abstract_edit_file_uploaded']['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] You have updated project files/synopsis of a Research Migration', ['@site_name' => $site_name]);
+            if ($proposal_data) {
+                $message['body'][] = t('Dear @name,', ['@name' => $proposal_data->contributor_name]);
+                $message['body'][] = '';
+                $message['body'][] = t('You have updated the project files for the following Research Migration Project:');
+                $message['body'][] = t('Project Title: @title', ['@title' => $proposal_data->project_title]);
+                $message['body'][] = '';
+                $message['body'][] = t('Best Wishes,');
+                $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+                $message['body'][] = t('FOSSEE, IIT Bombay');
+            }
+            break;
+        }
+
+        case 'research_migration_abstract_bulk_approved': {
+            $mail_data = $params['research_migration_abstract_bulk_approved'] ?? [];
+            $name = (string) ($mail_data['contributor_name'] ?? 'Contributor');
+            $title = (string) ($mail_data['project_title'] ?? '');
+            $message['headers'] = $mail_data['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] Your uploaded Research Migration project has been approved', ['@site_name' => $site_name]);
+            $message['body'][] = t('Dear @name,', ['@name' => $name]);
+            $message['body'][] = '';
+            $message['body'][] = t('Your uploaded project files for the Research Migration project have been approved.');
+            if ($title !== '') {
+                $message['body'][] = t('Project Title: @title', ['@title' => $title]);
+            }
+            $message['body'][] = '';
+            $message['body'][] = t('Best Wishes,');
+            $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+            $message['body'][] = t('FOSSEE, IIT Bombay');
+            break;
+        }
+
+        case 'research_migration_abstract_bulk_resubmission': {
+            $mail_data = $params['research_migration_abstract_bulk_resubmission'] ?? [];
+            $name = (string) ($mail_data['contributor_name'] ?? 'Contributor');
+            $title = (string) ($mail_data['project_title'] ?? '');
+            $reason = trim((string) ($mail_data['reason'] ?? ''));
+            $message['headers'] = $mail_data['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] Your uploaded Research Migration project has been marked for resubmission', ['@site_name' => $site_name]);
+            $message['body'][] = t('Dear @name,', ['@name' => $name]);
+            $message['body'][] = '';
+            $message['body'][] = t('Your project files have been marked for resubmission. Please update your project files and resubmit.');
+            if ($title !== '') {
+                $message['body'][] = t('Project Title: @title', ['@title' => $title]);
+            }
+            if ($reason !== '') {
+                $message['body'][] = t('Reason for resubmission: @reason', ['@reason' => $reason]);
+            }
+            $message['body'][] = '';
+            $message['body'][] = t('Best Wishes,');
+            $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+            $message['body'][] = t('FOSSEE, IIT Bombay');
+            break;
+        }
+
+        case 'research_migration_abstract_bulk_disapproved': {
+            $mail_data = $params['research_migration_abstract_bulk_disapproved'] ?? [];
+            $name = (string) ($mail_data['contributor_name'] ?? 'Contributor');
+            $title = (string) ($mail_data['project_title'] ?? '');
+            $reason = trim((string) ($mail_data['reason'] ?? ''));
+            $message['headers'] = $mail_data['headers'] ?? [];
+            $message['subject'] = t('[@site_name][Research Migration Project] Your uploaded Research Migration project has been disapproved', ['@site_name' => $site_name]);
+            $message['body'][] = t('Dear @name,', ['@name' => $name]);
+            $message['body'][] = '';
+            $message['body'][] = t('We regret to inform you that the project files submitted for the Research Migration project have been disapproved by the reviewer.');
+            if ($title !== '') {
+                $message['body'][] = t('Project Title: @title', ['@title' => $title]);
+            }
+            if ($reason !== '') {
+                $message['body'][] = t('Reason for disapproval: @reason', ['@reason' => $reason]);
+            }
+            $message['body'][] = '';
+            $message['body'][] = t('Best Wishes,');
+            $message['body'][] = t('@site_name Team,', ['@site_name' => $site_name]);
+            $message['body'][] = t('FOSSEE, IIT Bombay');
+            break;
+        }
+
+        case 'standard': {
+            $message['subject'] = $params['standard']['subject'] ?? '';
+            $message['body'] = $params['standard']['body'] ?? [];
+            $message['headers'] = $params['standard']['headers'] ?? [];
+            break;
+        }
+    }
+}

@@ -1,0 +1,190 @@
+esim_research_migration.add_project_title_form:
+  path: /research-migration-project/add-project-title
+  defaults:
+    _title: 'Add new project titles'
+    _form: \Drupal\esim_research_migration\Form\AddProjectTitleForm
+  requirements:
+    _permission: 'Research Migration add project titles'
+esim_research_migration.proposal_form:
+  path: /research-migration-project/proposal
+  defaults:
+    _title: 'Research Migration Project Proposal Form'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationProposalForm
+  requirements:
+    _permission: 'Research Migration create proposal'
+esim_research_migration.manage_proposal:
+  path: /research-migration-project/manage-proposal
+  defaults:
+    _title: 'Manage Research Migration Proposals'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::manageProposalRedirect'
+  requirements:
+    _permission: 'Research Migration manage proposal'
+esim_research_migration.proposal_pending:
+  path: /research-migration-project/manage-proposal/pending
+  defaults:
+    _title: 'Pending Proposals'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::esim_research_migration_proposal_pending'
+  requirements:
+    _permission: 'Research Migration manage proposal'
+esim_research_migration.proposal_all:
+  path: /research-migration-project/manage-proposal/all
+  defaults:
+    _title: 'All Proposals'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::esim_research_migration_proposal_all'
+  requirements:
+    _permission: 'Research Migration manage proposal'
+esim_research_migration.proposal_edit_file_all:
+  path: /research-migration-project/manage-proposal/edit-upload-file
+  defaults:
+    _title: 'Edit code files'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::esim_research_migration_proposal_edit_file_all'
+  requirements:
+    _permission: 'Research Migration manage proposal'
+esim_research_migration.proposal_approval_form:
+  path: /research-migration-project/manage-proposal/approve/{proposal_id}
+  defaults:
+    _title: 'Approve Proposal'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationProposalApprovalForm
+  requirements:
+    _permission: 'Research Migration manage proposal'
+esim_research_migration.proposal_edit_form:
+  path: /research-migration-project/manage-proposal/edit/{proposal_id}
+  defaults:
+    _title: 'Edit Proposal'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationProposalEditForm
+  requirements:
+    _permission: 'Research Migration manage proposal'
+esim_research_migration.proposal_status_form:
+  path: /research-migration-project/manage-proposal/status/{proposal_id}
+  defaults:
+    _title: 'Proposal Status'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationProposalStatusForm
+  requirements:
+    _permission: 'Research Migration approve proposal'
+esim_research_migration.abstract_bulk_approval_form:
+  path: /research-migration-project/abstract-approval/bulk
+  defaults:
+    _title: 'Research Migration Manage Code'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationAbstractBulkApprovalForm
+  requirements:
+    _permission: 'Research Migration bulk manage abstract'
+esim_research_migration.edit_upload_abstract_code_form:
+  path: /research-migration-project/abstract-code/edit-upload-files
+  defaults:
+    _title: 'Research Migration Project Directory edit uploaded files for proposal'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationEditUploadAbstractCodeForm
+  requirements:
+    _permission: 'Research Migration upload abstract'
+esim_research_migration.abstract:
+  path: /research-migration-project/abstract-code
+  defaults:
+    _title: 'Research Migration Project Directory Submission'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::esim_research_migration_abstract'
+  requirements:
+    _permission: 'Research Migration upload abstract'
+esim_research_migration.upload_abstract_code_form:
+  path: /research-migration-project/abstract-code/upload
+  defaults:
+    _title: 'Research Migration Project Directory Submission'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationUploadAbstractCodeForm
+  requirements:
+    _permission: 'Research Migration upload abstract'
+esim_research_migration.upload_code_delete:
+  path: /research-migration-project/abstract-code/delete
+  defaults:
+    _title: 'Delete Solution'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationDeleteSolutionForm
+  requirements:
+    _permission: 'Research Migration upload abstract'
+esim_research_migration.download_full_project:
+  path: /research-migration-project/full-download/project/{proposal_id}
+  defaults:
+    _title: 'Code Download'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::esim_research_migration_download_full_project'
+  requirements:
+    _permission: 'Research Migration download code'
+esim_research_migration.completed_proposals_all:
+  path: /research-migration-project/completed-research-migration
+  defaults:
+    _title: 'Completed Research Migration'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::esim_research_migration_completed_proposals_all'
+  requirements:
+    _permission: 'Research Migration download code'
+esim_research_migration.progress_all:
+  path: /research-migration-project/research-migration-progress
+  defaults:
+    _title: 'Research Migration in Progress'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::esim_research_migration_progress_all'
+  requirements:
+    _permission: 'Research Migration download code'
+esim_research_migration.list_of_available_project_titles:
+  path: /research-migration-project/list-of-project-titles
+  defaults:
+    _title: 'List of available project titles'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::list_of_available_project_titles'
+  requirements:
+    _permission: 'Research Migration Project titles list'
+esim_research_migration.run_form:
+  path: /research-migration-project/research-migration-run
+  defaults:
+    _title: 'Download Codes'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationRunForm
+  requirements:
+    _permission: 'Research Migration download code'
+esim_research_migration.run_form_with_id:
+  path: /research-migration-project/research-migration-run/{proposal_id}
+  defaults:
+    _title: 'Download Codes'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationRunForm
+  requirements:
+    _permission: 'Research Migration download code'
+esim_research_migration.download_upload_file:
+  path: /research-migration-project/download/resource-file
+  defaults:
+    _title: 'Download user defined compound file'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::downloadUploadFile'
+  requirements:
+    _permission: 'Research Migration download code'
+esim_research_migration.download_research_migration_project_title_files:
+  path: /research-migration-project/download/project-title-file/{project_title_id}
+  defaults:
+    _title: 'Download Project Title file'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::download_research_migration_project_title_files'
+  requirements:
+    _permission: 'Research Migration download code'
+esim_research_migration.project_files:
+  path: /research-migration-project/download/project-file/{proposal_id}
+  defaults:
+    _title: 'Download Project file'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::esim_research_migration_project_files'
+  requirements:
+    _permission: 'Research Migration download code'
+esim_research_migration.settings_form:
+  path: /admin/settings/research-migration
+  defaults:
+    _title: 'Research Migration Settings'
+    _form: \Drupal\esim_research_migration\Form\EsimResearchMigrationSettingsForm
+  requirements:
+    _permission: 'administer  Research Migration'
+esim_research_migration._list_research_migration_certificates:
+  path: /research-migration-project/certificates
+  defaults:
+    _title: 'List of Research Migration Project Certificates'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::_list_research_migration_certificates'
+  requirements:
+    _permission: 'list Research Migration certificates'
+esim_research_migration.generate_pdf:
+  path: /research-migration-project/certificates/generate-pdf/{proposal_id}
+  defaults:
+    _title: 'Download Certificate'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::generatePdf'
+  requirements:
+    _permission: 'generate pdf'
+esim_research_migration.verify_certificates_verify_certificates:
+  path: /research-migration-project/certificates/verify/{qr_code}
+  defaults:
+    _title: 'Certificate Verification'
+    _controller: '\Drupal\esim_research_migration\Controller\DefaultController::verify_certificates'
+    qr_code: ''
+  requirements:
+    _permission: 'verify rm certificates'

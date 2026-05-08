@@ -1,0 +1,54 @@
+'Research Migration add project titles':
+  title: 'Research Migration add project titles'
+  'restrict access': true
+'Research Migration create proposal':
+  title: 'Research Migration create proposal'
+  'restrict access': true
+'Research Migration manage proposal':
+  title: 'Research Migration manage proposal'
+  'restrict access': true
+'Research Migration edit proposal':
+  title: 'Research Migration edit proposal'
+  'restrict access': true
+'Research Migration approve proposal':
+  title: 'Research Migration approve proposal'
+  'restrict access': true
+'Research Migration propose solution':
+  title: 'Research Migration propose solution'
+  'restrict access': true
+'Research Migration Project titles list':
+  title: 'Research Migration Project titles list'
+  'restrict access': true
+'Research Migration approve abstract':
+  title: 'Research Migration approve code'
+  'restrict access': true
+'Research Migration bulk manage abstract':
+  title: 'Research Migration bulk manage abstract'
+  'restrict access': true
+'Research Migration bulk delete abstract':
+  title: 'Research Migration bulk delete code'
+  'restrict access': true
+'Research Migration upload abstract':
+  title: 'Research Migration upload code'
+  'restrict access': true
+'Research Migration download code':
+  title: 'Research Migration download code'
+  'restrict access': true
+'administer  Research Migration':
+  title: 'administer Research Migration'
+  'restrict access': true
+'Research Migration generate abstract':
+  title: 'Research Migration generate abstract'
+  'restrict access': true
+'list Research Migration certificates':
+  title: 'list the certificates'
+  description: 'list the certificates'
+  'restrict access': true
+'list Research Migration custom certificates':
+  title: 'list the mentor certificates'
+  description: 'list the mentor certificates'
+  'restrict access': true
+'verify rm certificates':
+  title: 'verify the rm certificates'
+  description: 'verify the rm certificates'
+  'restrict access': true

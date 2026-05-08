@@ -1,0 +1,35 @@
+esim_research_migration.proposal_pending_tab:
+  route_name: esim_research_migration.proposal_pending
+  title: 'Pending Proposals'
+  base_route: esim_research_migration.proposal_pending
+  weight: 0
+
+esim_research_migration.proposal_all_tab:
+  route_name: esim_research_migration.proposal_all
+  title: 'All Proposals'
+  base_route: esim_research_migration.proposal_pending
+  weight: 10
+
+esim_research_migration.proposal_edit_file_all_tab:
+  route_name: esim_research_migration.proposal_edit_file_all
+  title: 'Edit code files'
+  base_route: esim_research_migration.proposal_pending
+  weight: 20
+
+esim_research_migration.abstract_tab:
+  route_name: esim_research_migration.abstract
+  title: 'Project Directory Submission'
+  base_route: esim_research_migration.abstract
+  weight: 0
+
+esim_research_migration.upload_abstract_code_form_tab:
+  route_name: esim_research_migration.upload_abstract_code_form
+  title: 'Upload'
+  base_route: esim_research_migration.abstract
+  weight: 10
+
+esim_research_migration.edit_upload_abstract_code_form_tab:
+  route_name: esim_research_migration.edit_upload_abstract_code_form
+  title: 'Edit uploaded files'
+  base_route: esim_research_migration.abstract
+  weight: 20

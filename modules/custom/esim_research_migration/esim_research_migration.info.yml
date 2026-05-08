@@ -1,0 +1,5 @@
+name: 'esim Research Migration'
+description: 'esim Research Migration Project, FOSSEE, IIT Bombay'
+type: module
+package: FOSSEE
+core_version_requirement: ^9 || ^10
